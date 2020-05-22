@@ -22,8 +22,8 @@ def BaoBaoYouHuo(url,timeToSleep):
 		browser.quit()
 		return False
 	elif "Zur Auswahl hinzufügen" in browser.page_source and "<span id=\"priceBtnMsg\" class=\"contact-description\" style=\"\">Das Produkt ist derzeit nicht verfügbar</span>" not in browser.page_source:
-		imageName ="C:\\Users\\mv-adm-Qiang\\Desktop\\Log\\" + str(datetime.datetime.now())[0:22].replace(".","-").replace(":","-") + ".png"
-		browser.get_screenshot_as_file(imageName) 
+		#imageName ="C:\\Users\\mv-adm-Qiang\\Desktop\\Log\\" + str(datetime.datetime.now())[0:22].replace(".","-").replace(":","-") + ".png"
+		#browser.get_screenshot_as_file(imageName) 
 		browser.quit()
 		return True
 	else:
@@ -43,7 +43,11 @@ BaoBaoList = ["https://de.louisvuitton.com/deu-de/produkte/nano-noe-monogram-010
 "https://de.louisvuitton.com/deu-de/produkte/mini-pochette-accessoires-damier-azur-001034",
 "https://de.louisvuitton.com/deu-de/produkte/mini-pochette-accessoires-damier-ebene-001035"]
 
-countRunTimes = 0
+fromMail = "testFrom@mail.com"
+psw = "Password"
+ToMail = "testTo@mail.com"
+
+#countRunTimes = 0
 
 while True:
 	for BaoBao in BaoBaoList:
@@ -51,15 +55,15 @@ while True:
 			if BaoBaoYouHuo(BaoBao,timeToSleep):
 				msg = email.message_from_string("有货")
 				msg = MIMEText(BaoBao, 'plain', 'utf-8')
-				msg['From'] = "suo19890112@hotmail.com"
-				msg['To'] = "renrao@hotmail.com"
+				msg['From'] = fromMail
+				msg['To'] = ToMail
 				msg['Subject'] = "有货了老婆,冲鸭!!!"
-				s = smtplib.SMTP("smtp.live.com",587)
+				s = smtplib.SMTP("smtp.live.com",587) # Hotmail
 				s.ehlo() # Hostname to send for this command defaults to the fully qualified domain name of the local host.
 				s.starttls() #Puts connection to SMTP server in TLS mode
 				s.ehlo()
-				s.login('suo19890112@hotmail.com', "Woaidandan080501!")
-				s.sendmail("suo19890112@hotmail.com", "renrao@hotmail.com", msg.as_string())
+				s.login(fromMail, psw)
+				s.sendmail(fromMail, ToMail, msg.as_string())
 				s.quit()
 			else:
 				pass
@@ -68,10 +72,10 @@ while True:
 		else:
 			pass
 	time.sleep(1)
-	countRunTimes = countRunTimes+1
-	text_file = open("C:\\Users\\mv-adm-Qiang\\Desktop\\log\\Log.txt", "a")
-	text_file.write("\n" + 'RunTime: ' + str(countRunTimes) + ' at ' + str(datetime.datetime.now()))
-	text_file.close()
+#	countRunTimes = countRunTimes+1
+#	text_file = open("C:\\Users\\mv-adm-Qiang\\Desktop\\log\\Log.txt", "a")
+#	text_file.write("\n" + 'RunTime: ' + str(countRunTimes) + ' at ' + str(datetime.datetime.now()))
+#	text_file.close()
 
 
 
